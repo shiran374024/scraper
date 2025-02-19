@@ -13,7 +13,6 @@ class FindElement:
             element= self.driver.find_element(By.CLASS_NAME, class_name)
             return element.text
         except Exception as e:
-            print(e)
             return None
         finally:
             self.driver.quit()
