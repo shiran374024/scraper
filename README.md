@@ -12,7 +12,14 @@ This project is a web scraping tool designed to fetch and process metadata from 
 
 ## Setup Instructions
 
-1. **Create a virtual environment and activate it:**
+1. Clone the repository:
+
+    ```sh
+    git clone https://github.com/yourusername/scraper.git
+    cd scraper
+    ```
+
+2. **Create a virtual environment and activate it:**
     - For Windows:
       ```bash
       python -m venv venv
@@ -24,12 +31,12 @@ This project is a web scraping tool designed to fetch and process metadata from 
       source venv/bin/activate
       ```
 
-2. **Install the required packages:**
+3. **Install the required packages:**
     ```bash
     pip install -r requirements.txt
     ```
 
-3. **Download the ChromeDriver and place it in your PATH.**  
+4. **Download the ChromeDriver and place it in your PATH.**  
    You can download it from [here](https://sites.google.com/a/chromium.org/chromedriver/).
 
 ## Usage
