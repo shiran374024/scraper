@@ -14,6 +14,4 @@ class FindElement:
             return element.text
         except Exception as e:
             return None
-        finally:
-            self.driver.quit()
        

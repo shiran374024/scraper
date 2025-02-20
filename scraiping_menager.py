@@ -9,9 +9,10 @@ def main():
     fetcher = FetchContent("https://projects.propublica.org/nonprofits/organizations/")
     current_dir = os.getcwd()
     data_dir = os.path.join(current_dir, "data")
+    formater = FormatMenager("output_data")
     chunk_number = 0
-    chunk_size = 1000
-    for chunk in MetaDataReader(data_dir,chunk_size).read():
+    
+    for chunk in MetaDataReader(data_dir).read():
         for row in chunk:
             web_driver = fetcher.get_web_driver(row.file_rein)
             content = FindElement(web_driver).find_element_by_class_name("ntee-category")
@@ -20,11 +21,14 @@ def main():
                 row.category = content
             else:
                 print(f"Failed to fetch content for {row.file_rein}")
+        
+        formater.save_to_file(chunk, chunk_number)
         chunk_number += 1
-        formater = FormatMenager(f"output_data_{chunk_number}.json")
-        formater.save_to_file(chunk)
-        print(f"Data saved to output_data_{chunk_number}.json")
+    
     print("Process completed")
+    
+    # Close the WebDriver when done
+    fetcher.close_web_driver()
 
 if __name__ == "__main__":
     main()
