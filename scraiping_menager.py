@@ -20,7 +20,7 @@ def main():
                 row.category = content
             else:
                 print(f"Failed to fetch content for {row.file_rein}")
-    
+        chunk_number += 1
         formater = FormatMenager(f"output_data_{chunk_number}.json")
         formater.save_to_file(chunk)
         print(f"Data saved to output_data_{chunk_number}.json")
