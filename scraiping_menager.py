@@ -9,10 +9,16 @@ def main():
     fetcher = FetchContent("https://projects.propublica.org/nonprofits/organizations/")
     current_dir = os.getcwd()
     data_dir = os.path.join(current_dir, "data")
-    formater = FormatMenager("output_data")
+    base_file_name = "output_data"
+    formater = FormatMenager(base_file_name)
     chunk_number = 0
     
     for chunk in MetaDataReader(data_dir).read():
+        output_file = f"{base_file_name}_{chunk_number}.json"
+        if os.path.exists(output_file):
+            print(f"File {output_file} already exists. Skipping this chunk.")
+            chunk_number += 1
+            continue
         for row in chunk:
             web_driver = fetcher.get_web_driver(row.file_rein)
             content = FindElement(web_driver).find_element_by_class_name("ntee-category")
@@ -25,7 +31,7 @@ def main():
         formater.save_to_file(chunk, chunk_number)
         chunk_number += 1
     
-    print("Process completed")
+    print("Process completed")     
     
     # Close the WebDriver when done
     fetcher.close_web_driver()
