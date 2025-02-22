@@ -9,7 +9,6 @@ This project is a web scraping tool designed to fetch and process metadata from 
 - `selenium`
 - `requests`
 
-
 ## Setup Instructions
 
 1. Clone the repository:
@@ -21,17 +20,21 @@ This project is a web scraping tool designed to fetch and process metadata from 
 
 2. **Create a virtual environment and activate it:**
     - For Windows:
+
       ```bash
       python -m venv venv
       .\venv\Scripts\activate
       ```
+
     - For macOS/Linux:
+
       ```bash
       python3 -m venv venv
       source venv/bin/activate
       ```
 
 3. **Install the required packages:**
+
     ```bash
     pip install -r requirements.txt
     ```
@@ -44,6 +47,7 @@ This project is a web scraping tool designed to fetch and process metadata from 
 1. Place your CSV files in the `data` directory.
 
 2. Run the main script:
+
     ```bash
     python scraiping_menager.py
     ```
@@ -70,4 +74,3 @@ This project is a web scraping tool designed to fetch and process metadata from 
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
-

@@ -1,15 +1,28 @@
 import os
 from meta_data_reader import MetaDataReader
-from fetch_content import FetchContent
-from find_element import FindElement
+from fetch_content import PlaywrightFetchContent, SeleniumFetchContent
 from format_menager import FormatMenager
+
+
+def handle_content(content: str, file_rein: str) -> str|None:
+    if content:
+        print(f"Content fetched for {file_rein}")
+        return content
+    else:
+        print(f"Failed to fetch content for {file_rein}")
+        return None
 
 def main():
     print("Starting the process")
-    fetcher = FetchContent("https://projects.propublica.org/nonprofits/organizations/")
+    use_playwright = True
+    fetcher = None
+    if use_playwright:
+        fetcher = PlaywrightFetchContent("https://projects.propublica.org/nonprofits/organizations/")
+    else:
+        fetcher = SeleniumFetchContent("https://projects.propublica.org/nonprofits/organizations/")
     current_dir = os.getcwd()
     data_dir = os.path.join(current_dir, "data")
-    base_file_name = "output_data"
+    base_file_name =os.path.join("resultes","output_data")
     formater = FormatMenager(base_file_name)
     chunk_number = 0
     
@@ -20,20 +33,16 @@ def main():
             chunk_number += 1
             continue
         for row in chunk:
-            web_driver = fetcher.get_web_driver(row.file_rein)
-            content = FindElement(web_driver).find_element_by_class_name("ntee-category")
-            if content:
-                print(f"Content fetched for {row.file_rein}")
-                row.category = content
-            else:
-                print(f"Failed to fetch content for {row.file_rein}")
+            content = fetcher.find_element(row.file_rein)
+            handle_content(content, row.file_rein)
+            row.category = content
         
         formater.save_to_file(chunk, chunk_number)
         chunk_number += 1
     
     print("Process completed")     
     
-    # Close the WebDriver when done
+    # Close the WebDriver when done 
     fetcher.close_web_driver()
 
 if __name__ == "__main__":
