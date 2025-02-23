@@ -1,6 +1,6 @@
 # Scraper Project
 
-This project is a web scraping tool designed to fetch and process metadata from CSV files and web pages. The project uses Python and several libraries, including `pandas`, `selenium`, and `requests`.
+This project is a web scraping tool designed to fetch and process metadata from CSV files and web pages. The project uses Python and several libraries, including `pandas`, `selenium`,`playwright`, and `requests`.
 
 ## Requirements
 
@@ -8,6 +8,7 @@ This project is a web scraping tool designed to fetch and process metadata from 
 - `pandas`
 - `selenium`
 - `requests`
+- `playwright`
 
 ## Setup Instructions
 
