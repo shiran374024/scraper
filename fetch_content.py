@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -26,14 +26,18 @@ class PlaywrightFetchContent(FetchContent):
 
     def find_element(self, file_rein: str) -> str|None:
         url = self.base_url + file_rein
-        self.page.goto(url)
-        self.page.wait_for_load_state('domcontentloaded')
-        return self._find_element_in_contnet(".ntee-category")
-    
-    def _find_element_in_contnet(self, class_name: str):
         try:
-           element = self.page.locator(class_name).first
-           return element.text_content(timeout = 1000) if element else None
+            self.page.goto(url)
+            self.page.wait_for_load_state('domcontentloaded')
+            return self._find_element_in_content(".ntee-category")
+        except Exception as e:
+            print(f"Error while trying to load the page: {url} - {e}")
+            return None
+    
+    def _find_element_in_content(self, class_name: str):
+        try:
+            element = self.page.locator(class_name).first
+            return element.text_content(timeout = 1000) if element else None
         except Exception as e:
             return None
 
@@ -41,6 +45,7 @@ class PlaywrightFetchContent(FetchContent):
         self.page.close()
         self.browser.close()
         self.playwright.stop()
+
 
 class SeleniumFetchContent(FetchContent):
     def __init__(self, base_url):
@@ -60,7 +65,7 @@ class SeleniumFetchContent(FetchContent):
     
     def _find_element_by_class_name(self, class_name: str):
         try:
-            element= self.web_driver.find_element(By.CLASS_NAME, class_name)
+            element = self.web_driver.find_element(By.CLASS_NAME, class_name)
             return element.text
         except Exception as e:
             return None
